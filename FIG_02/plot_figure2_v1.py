@@ -86,20 +86,33 @@ BAND_YLIM = (-1.0, 1.0)
 BAND_YTICKS = [-1.0, -0.5, 0.0, 0.5, 1.0]
 
 # Inset zoom window (panel d)
-INSET_XMIN, INSET_XMAX = 217, 243
-INSET_YMIN, INSET_YMAX = -0.06, 0.00
+#INSET_XMIN, INSET_XMAX = 217, 243
+#INSET_YMIN, INSET_YMAX = -0.06, 0.00
+
+INSET_XMIN, INSET_XMAX = 220, 240
+INSET_YMIN, INSET_YMAX = -0.05, -0.01
+
+#INSET_XMIN, INSET_XMAX = 225, 235
+#INSET_YMIN, INSET_YMAX = -0.035, -0.020
 
 # --- BZ/Weyl (panels e–h) ---
 # Edges are manually specified based on the vertex indexing returned by Voronoi.
 EDGES = [
-    (23,13),(13,18),(15,18),(18,7),(7,9),(9,20),(20,5),(5,15),(15,23),
-    (7,11),(11,21),(21,1),(1,13),
-    (1,19),(19,12),(12,4),(4,23),
-    (20,2),(2,14),(14,24),(24,3),(3,9),
-    (11,3),(24,16),(16,6),(6,21),
-    (6,19),(16,17),(17,8),(8,12),
-    (22,10),(10,4),(10,8),
-    (22,5),(22,2),(14,17)
+    (20,12),(12,17),(17,13),(13,20),
+    (20,1),(12,5),(17,8),(13,3),
+    (1,15),(1,9),(5,23),(5,22),(8,10),(8,16),(3,24),(3,21),
+    (10,22),(23,15),(9,21),(24,16),
+    (10,2),(16,2),(24,6),(21,6),(9,7),(15,7),(23,4),(22,4),
+    (2,19),(4,11),(7,18),(6,14),
+    (19,14),(14,18),(18,11),(11,19)    
+#    (23,13),(13,18),(15,18),(18,7),(7,9),(9,20),(20,5),(5,15),(15,23),
+#    (7,11),(11,21),(21,1),(1,13),
+#    (1,19),(19,12),(12,4),(4,23),
+#    (20,2),(2,14),(14,24),(24,3),(3,9),
+#    (11,3),(24,16),(16,6),(6,21),
+#    (6,19),(16,17),(17,8),(8,12),
+#    (22,10),(10,4),(10,8),
+#    (22,5),(22,2),(14,17)
 ]
 
 # Q=2.0
@@ -321,7 +334,7 @@ def plot_bz_kpar_kz(ax, verts, weyl_cart=None, weyl_sign=None):
 def plot_gap_vs_q(ax, gap_h5):
     """Panel (a): Eg(Γ–Z) vs Q with highlighted markers."""
     with h5py.File(gap_h5, "r") as f:
-        gap_list = f["/gap_list"][()][::-1]                 # reverse as in your original
+        gap_list = f["/gap1_list"][()][::-1]                 # reverse as in your original
         distortion = f["/distortion"][()]
         q = (-1.0 * distortion)[::-1]                       # reversed sign + reversed order
 
@@ -498,8 +511,10 @@ def main():
     # -------------------------------------------------------------------------
     # Save
     # -------------------------------------------------------------------------
-    plt.savefig("FIG_2.png", dpi=600)
-    plt.show()
+    plt.savefig("FIG_2_v1.png", dpi=600)
+    #plt.savefig("Figure_2.pdf", dpi=600)
+    plt.savefig("Figure_2.tiff", pil_kwargs={"compression": "tiff_lzw"},dpi=600)
+    #plt.show()
 
 
 if __name__ == "__main__":
