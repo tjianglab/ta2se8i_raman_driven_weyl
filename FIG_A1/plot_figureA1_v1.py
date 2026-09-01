@@ -8,7 +8,7 @@ FIG_A1 plotting script
 This script reproduces FIG_A1 consisting of:
   (a) 3D BZ sketch (Voronoi Wigner–Seitz) + (optional) Weyl points chirality
   (b) band structure of MODE18 (colored segments)
-  (c)-(k) 3x3 grid: gap vs displacement for modes [18,30,33,40,41,44,47,50,62]
+  (c)-(k) 3x3 grid: gap vs displacement for modes [18,30,33,40,41,44,47,50,61]
 
 IMPORTANT USER REQUIREMENT:
 - Keep panel (a) basic logic unchanged (layout/ratio/view/limits/annotation logic).
@@ -29,21 +29,18 @@ from scipy.spatial import Voronoi
 from matplotlib.ticker import NullLocator
 
 
-# ============================================================
-# Global plot style (your original color cycle)
-# ============================================================
 colors = np.asarray([
-    [0, 0, 0],
-    [230, 159, 0],
-    [86, 180, 233],
-    [0, 158, 115],
+    [0, 0, 0],        # color[0] black
+    [86, 180, 233],   # color[1] blue
+    [230, 159, 0],    # color[2] yellow/orange
+    [0, 158, 115],    # color[3] green
     [240, 228, 66],
     [0, 114, 178],
     [213, 94, 0],
     [204, 121, 167],
 ]) / 255.0
-mpl.rcParams['axes.prop_cycle'] = mpl.cycler(color=colors)
 
+mpl.rcParams['axes.prop_cycle'] = mpl.cycler(color=colors)
 
 # ============================================================
 # 1. From POSCAR -> reciprocal lattice vectors
@@ -414,7 +411,8 @@ def plot_gap_grid(axs, mode_list, panel_labels, set_xlim_list, reversed_mode_lis
                 marker=markers[i],
                 label=labels[i],
                 linewidth=1.5,
-                color=colors[i + 1]
+                color=colors[i + 1],
+                zorder=4-i,
             )
 
         axs[i1, i2].set_ylim(0.0, 0.15)
@@ -503,16 +501,16 @@ def main():
     )
 
     panel_labels = ['(c)','(d)','(e)','(f)','(g)','(h)','(i)','(j)','(k)']
-    mode_list = [18, 30, 33, 40, 41, 44, 47, 50, 62]
-    reversed_mode_list = [18, 30, 41, 47]
+    mode_list = [18, 30, 33, 40, 41, 44, 47, 50, 61]
+    reversed_mode_list = [18, 40]
     set_xlim_list = [
         [2.0, 3.0],
-        [5.5, 6.5],
+        [6.0, 7.0],#[5.5, 6.5],
         [3.0, 4.0],
         [6.0, 7.0],
-        [3.5, 4.5],
-        [3.5, 4.5],
-        [4.5, 5.5],
+        [4.0, 5.0],#[3.5, 4.5],
+        [3.0, 4.0],#[3.5, 4.5],
+        [4.0, 5.0],#[4.5, 5.5],
         [3.0, 4.0],
         [6.0, 7.0],
     ]
@@ -525,7 +523,7 @@ def main():
         reversed_mode_list=reversed_mode_list
     )
 
-    plt.savefig("FIG_A1.png", dpi=600)
+    plt.savefig("FIG_A1_v1.png", dpi=600)
     plt.show()
 
 
