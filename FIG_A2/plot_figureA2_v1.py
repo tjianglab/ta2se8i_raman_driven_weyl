@@ -147,6 +147,6 @@ if __name__ == "__main__":
     )
     add_row_colorbar(fig, sc1, axs[1, :], ticks=(0.0, 0.5, 1.0), pad=0.02)
 
-    plt.savefig("FIG_A2.png", dpi=600)
+    plt.savefig("FIG_A2_v1.png", dpi=600)
     plt.show()
 
