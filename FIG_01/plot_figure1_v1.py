@@ -126,7 +126,7 @@ def main():
     axtop[0].annotate("(a)", xy=(-0.05, 1.05), xycoords="axes fraction")
     axtop[0].annotate("CDW amplitude mode", xy=(0.10, 1.05), xycoords="axes fraction")
     axtop[0].annotate(r"$\mathit{A}(18)$", xy=(0.15, 0.95), xycoords="axes fraction")
-    axtop[0].annotate("2.51 THz", xy=(0.60, 0.95), xycoords="axes fraction")
+    axtop[0].annotate("2.52 THz", xy=(0.60, 0.95), xycoords="axes fraction")
 
     # Element legend text (assumes your image already has colored arrows)
     axtop[0].annotate(r"Ta", xy=(0.57, -0.02), fontsize=8, xycoords="axes fraction")
@@ -250,8 +250,10 @@ def main():
     # =============================================================================
     # Save & show
     # =============================================================================
-    plt.savefig("FIG_1.png", dpi=600)
-    plt.show()
+    plt.savefig("FIG_1_v1.png", dpi=600)
+    #plt.savefig("Figure_1.pdf", dpi=600)
+    plt.savefig("Figure_1.tiff", pil_kwargs={"compression": "tiff_lzw"}, dpi=600,)
+    #plt.show()
 
 
 if __name__ == "__main__":
