@@ -79,8 +79,10 @@ mpl.rcParams["axes.prop_cycle"] = mpl.cycler(color=COLORS)
 # =============================================================================
 # User-editable configuration
 # =============================================================================
-MODE_LIST = [30, 33, 40, 41, 44, 47, 50, 62]
+MODE_LIST = [30, 33, 40, 41, 44, 47, 50, 61]
 TOP_LABELS = ["(a)", "(b)", "(c)", "(d)", "(e)", "(f)", "(g)", "(h)"]
+
+min_q_along_gz = [6.5,3.6,6.6,4.2,3.8,4.8,3.3,6.5]
 
 # Image naming rule: mode 62 uses "SHORT_" prefix in your original script
 TOP_IMG_TEMPLATE = "TOP_VIEWS/{prefix}35x35x72ppi_MODE{mode}_TOP.png"
@@ -90,7 +92,7 @@ SHORT_PREFIX_MODES = {62}  # modes that use "SHORT_" in file names
 # Gap data
 GAP_H5_TEMPLATE = "GAP_VS_DISP_Se_MODES/MODE{mode}/combine_gap_list_vs_distortion_TSI.h5"
 GAP_CACHE_NPZ = "GAP_VS_DISP_Se_MODES/save_all_q_and_gap_list.npz"
-SPECIAL_REVERSE_MODES = {30, 41, 47}  # modes that are reversed in your original script
+SPECIAL_REVERSE_MODES = {40, }  # modes that are reversed in your original script
 
 # Bands data
 BANDS_H5_TEMPLATE = "BANDS_WHEN_GAP_CLOSE_Se_MODES/MODE{mode}/save_bands_and_klist.h5"
@@ -99,11 +101,11 @@ BANDS_CACHE_H5 = "BANDS_WHEN_GAP_CLOSE_Se_MODES/save_all_k_and_bands_list_for_pc
 # Inset windows (per mode) for bands
 XMIN_XMAX_LIST = [
     [233, 247], [222, 238], [216, 233], [228, 244],
-    [230, 245], [222, 238], [222, 238], [242, 258]
+    [230, 245], [222, 238], [222, 238], [243, 259]
 ]
 YMIN_YMAX_LIST = [
     [-0.050, -0.030], [-0.025, -0.005], [-0.050, -0.030], [-0.055, -0.035],
-    [-0.040, -0.020], [-0.030, -0.010], [-0.040, -0.020], [-0.050, -0.030]
+    [-0.040, -0.020], [-0.030, -0.010], [-0.045, -0.025], [-0.050, -0.030]
 ]
 
 # Weyl data
@@ -112,14 +114,21 @@ NODES_TEMPLATE = "WEYL_NODES_WITH_CHIRALITY_Se_MODES/MODE{mode}/filtered_Nodes_w
 
 # Manual BZ edges (based on your Voronoi vertex indexing)
 EDGES = [
-    (23, 13), (13, 18), (15, 18), (18, 7), (7, 9), (9, 20), (20, 5), (5, 15), (15, 23),
-    (7, 11), (11, 21), (21, 1), (1, 13),
-    (1, 19), (19, 12), (12, 4), (4, 23),
-    (20, 2), (2, 14), (14, 24), (24, 3), (3, 9),
-    (11, 3), (24, 16), (16, 6), (6, 21),
-    (6, 19), (16, 17), (17, 8), (8, 12),
-    (22, 10), (10, 4), (10, 8),
-    (22, 5), (22, 2), (14, 17),
+    (20,12),(12,17),(17,13),(13,20),
+    (20,1),(12,5),(17,8),(13,3),
+    (1,15),(1,9),(5,23),(5,22),(8,10),(8,16),(3,24),(3,21),
+    (10,22),(23,15),(9,21),(24,16),
+    (10,2),(16,2),(24,6),(21,6),(9,7),(15,7),(23,4),(22,4),
+    (2,19),(4,11),(7,18),(6,14),
+    (19,14),(14,18),(18,11),(11,19)
+#    (23,13),(13,18),(15,18),(18,7),(7,9),(9,20),(20,5),(5,15),(15,23),
+#    (7,11),(11,21),(21,1),(1,13),
+#    (1,19),(19,12),(12,4),(4,23),
+#    (20,2),(2,14),(14,24),(24,3),(3,9),
+#    (11,3),(24,16),(16,6),(6,21),
+#    (6,19),(16,17),(17,8),(8,12),
+#    (22,10),(10,4),(10,8),
+#    (22,5),(22,2),(14,17)
 ]
 
 # BZ plot cosmetics (fixed range as in your original script)
@@ -309,7 +318,7 @@ def load_all_gap_curves(mode_list):
     for mode in mode_list:
         h5_path = GAP_H5_TEMPLATE.format(mode=mode)
         with h5py.File(h5_path, "r") as f:
-            gap_list = f["/gap_list"][()]
+            gap_list = f["/gap1_list"][()]
             distortion = f["/distortion"][()]
 
         # Your original script uses a different sign/order for a subset of modes
@@ -418,8 +427,21 @@ def main():
 
     for col, mode in enumerate(MODE_LIST):
         axs2[0, col].plot(total_q_list[col], total_gap_list[col], lw=1.0, linestyle="-", color="b")
+
+
+        target_q = min_q_along_gz[col]
+        q_array = np.array(total_q_list[col])
+        idx = np.argmin(np.abs(q_array - target_q))
+ 
+        axs2[0, col].scatter(
+            total_q_list[col][idx],
+            total_gap_list[col][idx],
+            s=1,
+            c="red",
+            zorder=40
+        )
         axs2[0, col].set_xlim(total_q_list[col][0], total_q_list[col][-1])
-        axs2[0, col].set_ylim(0.0, 1.0)
+        axs2[0, col].set_ylim(0.0, 0.85)
         axs2[0, col].set_xticks([-10, -5, 0, 5, 10])
         axs2[0, col].set_xlabel(rf"Q$_{{A({mode})}}$ ($\mathrm{{\AA}}\sqrt{{\mathrm{{amu}}}}$)")
 
@@ -498,8 +520,10 @@ def main():
     # -------------------------------------------------------------------------
     # Save
     # -------------------------------------------------------------------------
-    plt.savefig("FIG_3.png", dpi=600)
-    plt.show()
+    plt.savefig("FIG_3_v1.png", dpi=600)
+    #plt.savefig("Figure_3.pdf", dpi=600)
+    plt.savefig("Figure_3.tiff", pil_kwargs={"compression": "tiff_lzw"},dpi=600)
+    #plt.show()
 
 
 if __name__ == "__main__":
