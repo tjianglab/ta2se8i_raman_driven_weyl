@@ -66,7 +66,7 @@ mpl.rcParams["axes.prop_cycle"] = mpl.cycler(color=COLORS)
 # User-editable configuration
 # =============================================================================
 FIGSIZE = (4, 4)
-OUTPUT_FIG = "FIG_4.png"
+OUTPUT_FIG = "FIG_4_v1.png"
 DPI = 600
 
 IMG_TOP = "35x35x72ppi_MODE07_TOP.png"
@@ -186,7 +186,7 @@ def main():
     hide_axes_for_image(ax_img_top)
     ax_img_top.annotate("(a)", xy=(-0.06, 0.94), xycoords="axes fraction")
     ax_img_top.annotate(r"$\mathit{B}_{3}(7)$", xy=(0.16, 0.94), xycoords="axes fraction")
-    ax_img_top.annotate("1.14 THz", xy=(0.58, 0.94), xycoords="axes fraction")
+    ax_img_top.annotate("1.15 THz", xy=(0.58, 0.94), xycoords="axes fraction")
 
     # -------------------------------------------------------------------------
     # (b) B3(7) side view image
@@ -313,7 +313,9 @@ def main():
     # Save
     # -------------------------------------------------------------------------
     plt.savefig(OUTPUT_FIG, dpi=DPI)
-    plt.show()
+    #plt.savefig("Figure_4.pdf", dpi=600)
+    plt.savefig("Figure_4.tiff", pil_kwargs={"compression": "tiff_lzw"},dpi=600)
+    #plt.show()
 
 
 if __name__ == "__main__":
