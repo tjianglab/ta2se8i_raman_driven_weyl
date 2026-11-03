@@ -23,8 +23,10 @@ T. Jiang, J. Wang, Y.-X. Yao, "CDW gap collapse and Weyl state restoration in Ta
 
 ## Citation
 
-If you use these data, please cite the paper above.
+If you use these data or scripts, please cite:
+
+T. Jiang, J. Wang, and Y.-X. Yao, "CDW gap collapse and Weyl state restoration in Ta2Se8I via coherent phonons: a first-principles study", npj Computational Materials (2026), https://doi.org/10.1038/s41524-026-02391-5 (arXiv:2602.07897).
 
 ## License
 
-To be added.
+The data in this repository are licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). The scripts are licensed under the MIT License.
