@@ -1,0 +1,41 @@
+SYSTEM   = Ta2Se8I
+PREC     = High
+#SYMPREC  = 1E-7 # remove symmetry error warning.
+
+ISTART   = 0
+#ICHARG   = 11
+ISMEAR   = 0
+SIGMA    = 0.1
+
+ENCUT    = 400
+
+IBRION   = 2
+NELMIN   = 4
+#ISIF     = 3
+EDIFFG   = -1.E-3
+EDIFF    =  1.E-8
+
+NELM     = 200
+NSW      = 0
+ALGO     = NORMAL
+LREAL    = Auto
+#LREAL    = .FALSE.
+#ADDGRID  = .TRUE.
+KPAR = 8
+NBANDS = 180
+#NPAR = 4
+LCHARG   = .TRUE.
+#LWAVE    = .TRUE.
+LWAVE    = .FALSE.
+LSORBIT  = .TRUE.
+#LORBIT   = 11
+#IVDW     = 1
+
+LWANNIER90 = TRUE
+
+#GGA = MK
+#PARAM1 = 0.1234
+#PARAM2 = 1.0000
+#LUSE_VDW = .TRUE.
+#AGGAC = 0.0000
+#LASPH = .TRUE.
