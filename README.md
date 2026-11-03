@@ -1,4 +1,4 @@
-# Data and scripts for CDW gap collapse and Weyl state restoration in (TaSe4)2I
+# Data and scripts for CDW gap collapse and Weyl state restoration in Ta2Se8I via coherent phonons
 
 Data and scripts to generate the figures in:
 
